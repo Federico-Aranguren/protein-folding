@@ -17,10 +17,10 @@ int main(int argc, char **argv)
     // declare variables
     int N = atoi(argv[1]);
     int n = 20;
-    //const int steps = (argv[2]);
+    //const int steps = (atoi[2]);
     vector<vector<int> > Protein = {{0,0},{1,0},{1,1}};
     double matrizj[n][n];
-
+    
     
     std::random_device rd;  
     std::mt19937 genn(rd()); 
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 
     std::random_device rd2;
     std::mt19937 genN(rd2());
-    std::uniform_int_distribution<> distribN(1, N);// Ran number for the chain
+    std::uniform_int_distribution<> distribN(0, N-1);// Ran number for the chain
     
     int randomposition = distribN(genN);
     
@@ -51,11 +51,10 @@ int main(int argc, char **argv)
     }
      for (int i = 0; i < Protein.size(); i++) { //Protein construction
          for (int j = 0; j < Protein[i].size(); j++){
-            //std::cout << Protein[i][j] << " ";
+            //std::cout << Protein[i][j] << " ";    
             }
         std::cout << std::endl;
      }
-
     cout << randomposition << "\n";
     move(randomposition, Protein);
 
@@ -75,40 +74,63 @@ double move(int a, std::vector<vector<int>> b) // implementation
 {
     
     std::vector<vector<int> > posible_movements{{b[a][0] + 1,b[a][1] + 1},{b[a][0] + 1,b[a][1] -1},{b[a][0] - 1,b[a][1] + 1},{b[a][0] - 1,b[a][1] - 1}};
-
+    cout << b[a][0] << "\t" <<b[a][1] << "\n";
     for (int j = 0; j < b.size(); j++){
         
         if(b[j][0] == b[a][0] + 1 and b[j][1] == b[a][1] + 1){
             posible_movements.erase(posible_movements.begin());
         }
         else if (b[j][0] == b[a][0]+1 and b[j][1] == b[a][1] - 1)
+
         {
             posible_movements.erase(posible_movements.begin()+1);
         }
         else if (b[j][0] == b[a][0] - 1 and b[j][1] == b[a][1] + 1)
         {
-            //posible_movements.erase(posible_movements.begin()+2);
+            posible_movements.erase(posible_movements.begin()+2);
         }
         else if (b[j][0] == b[a][0]-1 and b[j][1] == b[a][1] - 1)
         {
             posible_movements.erase(posible_movements.begin()+3);
-        }
-
+        }    
     }
-    for (int i = 0; i < posible_movements.size()+int(1); i++)
-    {
-        float d1 = sqrt(std::pow(posible_movements[i][0]-b[a+1][0],2)+std::pow(posible_movements[i][1]-b[a+1][1],2));
-        float d2 = sqrt(std::pow(posible_movements[i][0]-b[a-1][0],2)+std::pow(posible_movements[i][1]-b[a-1][1],2));
-        cout << d1 << "\t" << d2 << "\n"<< posible_movements[i][0] << "\t" << posible_movements[i][1] << "\n";
-        if (d1 != 1 || d2 != 1){
-            posible_movements.erase(posible_movements.begin()+i);
+    for (int i = 0; i < posible_movements.size(); i++){
+        for (int j = 0; j < posible_movements[i].size(); j++){
+            cout << posible_movements[i][j] << "\t";
         }
-        
-
+        cout << "\n";
     }
-    
-
- 
+    cout << "----------" << "\n";
+    for (int i = 0; i < posible_movements.size(); i++){
+        if (a != 0 and a != b.size()-1){
+            float d1 = sqrt(std::pow(posible_movements[i][0]-b[a+1][0],2)+std::pow(posible_movements[i][1]-b[a+1][1],2));
+            float d2 = sqrt(std::pow(posible_movements[i][0]-b[a-1][0],2)+std::pow(posible_movements[i][1]-b[a-1][1],2));
+            if (d1 || d2 != 1){
+                posible_movements.erase(posible_movements.begin()+i);
+                i = i-1;
+            }
+        }
+        else if (a = b.size()-1){
+            float d2 = sqrt(std::pow(posible_movements[i][0]-b[a-1][0],2)+std::pow(posible_movements[i][1]-b[a-1][1],2));
+            if (d2 != 1){
+                posible_movements.erase(posible_movements.begin()+i);
+                i = i-1;
+            }
+        }
+        else{
+            float d1 = sqrt(std::pow(posible_movements[i][0]-b[a+1][0],2)+std::pow(posible_movements[i][1]-b[a+1][1],2));
+            if (d1 != 1){
+                posible_movements.erase(posible_movements.begin()+i);
+                i = i-1;
+            }
+        }
+    } 
+    for (int i = 0; i < posible_movements.size(); i++){
+        for (int j = 0; j < posible_movements[i].size(); i++){
+            cout << posible_movements[i][j] << "\t";
+        }
+        cout << "\n";
+    }
     return 0;
 }
 double energy(double x, int N) // implementation
