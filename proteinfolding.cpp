@@ -8,7 +8,7 @@
 using namespace std;
 
 double move(int a, std::vector<vector<int>> b);
-double energy(double x, int N); // declaration
+double energy(std::vector<vector<int>> P, double Matriz[20][20]); // declaration
 
 int main(int argc, char **argv)
 {
@@ -18,8 +18,8 @@ int main(int argc, char **argv)
     int N = atoi(argv[1]);
     int n = 20;
     //const int steps = (atoi[2]);
-    vector<vector<int> > Protein = {{0,0},{1,0},{1,1}};
-    double matrizj[n][n];
+    vector<vector<int> > Protein = {{0,0,5},{1,0,6},{1,1,7}};
+    double matrizj[20][20];
     
     
     std::random_device rd;  
@@ -55,8 +55,8 @@ int main(int argc, char **argv)
             }
         std::cout << std::endl;
      }
-    cout << randomposition << "\n";
     move(randomposition, Protein);
+    energy(Protein, matrizj);
 
     //std::cout<< pos;
     //array = new double [N];
@@ -74,33 +74,29 @@ double move(int a, std::vector<vector<int>> b) // implementation
 {
     
     std::vector<vector<int> > posible_movements{{b[a][0] + 1,b[a][1] + 1},{b[a][0] + 1,b[a][1] -1},{b[a][0] - 1,b[a][1] + 1},{b[a][0] - 1,b[a][1] - 1}};
-    cout << b[a][0] << "\t" <<b[a][1] << "\n";
+    //cout << b[a][0] << "\t" <<b[a][1] << "\n";
     for (int j = 0; j < b.size(); j++){
         
         if(b[j][0] == b[a][0] + 1 and b[j][1] == b[a][1] + 1){
             posible_movements.erase(posible_movements.begin());
         }
-        else if (b[j][0] == b[a][0]+1 and b[j][1] == b[a][1] - 1)
-
-        {
+        else if (b[j][0] == b[a][0]+1 and b[j][1] == b[a][1] - 1){
             posible_movements.erase(posible_movements.begin()+1);
         }
-        else if (b[j][0] == b[a][0] - 1 and b[j][1] == b[a][1] + 1)
-        {
+        else if (b[j][0] == b[a][0] - 1 and b[j][1] == b[a][1] + 1){
             posible_movements.erase(posible_movements.begin()+2);
         }
-        else if (b[j][0] == b[a][0]-1 and b[j][1] == b[a][1] - 1)
-        {
+        else if (b[j][0] == b[a][0]-1 and b[j][1] == b[a][1] - 1){
             posible_movements.erase(posible_movements.begin()+3);
         }    
     }
-    for (int i = 0; i < posible_movements.size(); i++){
-        for (int j = 0; j < posible_movements[i].size(); j++){
-            cout << posible_movements[i][j] << "\t";
-        }
-        cout << "\n";
-    }
-    cout << "----------" << "\n";
+    //for (int i = 0; i < posible_movements.size(); i++){
+    //    for (int j = 0; j < posible_movements[i].size(); j++){
+    //        cout << posible_movements[i][j] << "\t";
+    //    }
+    //    cout << "\n";
+    //}
+    //cout << "----------" << "\n";
     for (int i = 0; i < posible_movements.size(); i++){
         if (a != 0 and a != b.size()-1){
             float d1 = sqrt(std::pow(posible_movements[i][0]-b[a+1][0],2)+std::pow(posible_movements[i][1]-b[a+1][1],2));
@@ -125,15 +121,36 @@ double move(int a, std::vector<vector<int>> b) // implementation
             }
         }
     } 
-    for (int i = 0; i < posible_movements.size(); i++){
-        for (int j = 0; j < posible_movements[i].size(); j++){
-            cout << posible_movements[i][j] << "\t";
-        }
-        cout << "\n";
-    }
+    //for (int i = 0; i < posible_movements.size(); i++){
+    //    for (int j = 0; j < posible_movements[i].size(); j++){
+    //        cout << posible_movements[i][j] << "\t";
+    //    }
+    //    cout << "\n";
+    //}
     return 0;
 }
-double energy(double x, int N) // implementation
-{
+double energy(std::vector<vector<int>> P, double Matriz[20][20]){ // implementation
+    for (int i = 0; i < P.size(); i++){//se situa en un aminoácido
+        cout << i << "\n" << P[i][0] << "\t" << P[i][1] << "\n";
+        cout << "---------------" << "\n";
+        std::vector<vector<int>> closest_amino{{P[i][0] + 1,P[i][1], 0},{P[i][0],P[i][1] + 1, 0},{P[i][0] - 1,P[i][1], 0},{P[i][0],P[i][1]-1, 0}};
+        for (int j = 0; j < closest_amino.size(); j++){//se situa en las posiciones cercanas del i.esimo aminoácido
+            for (int l = 0; l < P.size(); l++){//Revisa si algun amino está en la posicion j-esima de closest_position
+                if (P[l][0] == closest_amino[j][0] && P[l][1] == closest_amino[j][1]){
+                    if (l == i+1 || l == i-1){
+                        closest_amino.erase(closest_amino.begin()+j);
+                        j=j-1;
+                    }
+                    else{
+                        closest_amino[j][2]=P[l][2];
+                        l = closest_amino.size() - 1;
+                    }
+                }
+            }
+            cout << closest_amino[j][0] << "\t" << closest_amino[j][1] << "\t" << closest_amino[j][2] << "\n";
+        }
+        cout << "|||||||||||||||||" << "\n";
+    }
+    
     return 0;
 }
