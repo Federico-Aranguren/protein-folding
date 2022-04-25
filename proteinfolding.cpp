@@ -105,7 +105,7 @@ double move(int a, std::vector<vector<int>> b) // implementation
         if (a != 0 and a != b.size()-1){
             float d1 = sqrt(std::pow(posible_movements[i][0]-b[a+1][0],2)+std::pow(posible_movements[i][1]-b[a+1][1],2));
             float d2 = sqrt(std::pow(posible_movements[i][0]-b[a-1][0],2)+std::pow(posible_movements[i][1]-b[a-1][1],2));
-            if (d1 || d2 != 1){
+            if (d1 != 1 || d2 != 1){
                 posible_movements.erase(posible_movements.begin()+i);
                 i = i-1;
             }
@@ -126,7 +126,7 @@ double move(int a, std::vector<vector<int>> b) // implementation
         }
     } 
     for (int i = 0; i < posible_movements.size(); i++){
-        for (int j = 0; j < posible_movements[i].size(); i++){
+        for (int j = 0; j < posible_movements[i].size(); j++){
             cout << posible_movements[i][j] << "\t";
         }
         cout << "\n";
