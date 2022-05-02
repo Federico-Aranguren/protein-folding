@@ -85,12 +85,13 @@ int main(int argc, char **argv)
             }
         }
         //cout << "\nProteína: \t";
-       if (ms == 1||ms ==steps-1||ms ==int(steps/2)){
-        for (int i=0; i < Protein.size();i++){
+       if (ms == steps+1 ){
+        for (int i=0; i < Protein.size();i++){// Pinta proteina y energia                    ||ms ==int(steps/2) ||ms ==steps             ||ms ==int(steps/2
             //cout << "(";
             for (int j=0; j < Protein[i].size()-1;j++){
                 //cout << Protein[i][j]<<",";std::endl;
-                cout << Protein[i][j]<< "\t";
+                //cout << Protein[i][j]<< "\t";//<< energy(Protein, matrizj)<< "\t"<< ms << "\t";
+                cout << energy(Protein, matrizj)<< "\t";
             }
             //cout << "),\t";
             cout << "\n";
@@ -98,6 +99,10 @@ int main(int argc, char **argv)
         cout << "\n";
         cout << "\n";
        }
+       cout << energy(Protein, matrizj)<< "\t"<< ms;
+       cout << "\n";
+
+
     }
 
     return 0;
@@ -170,15 +175,15 @@ vector<int> posible_move(int a, std::vector<vector<int>> b) // implementation
         std::uniform_int_distribution<> distribpm(0, posible_movements.size()-1);// Ran number for posible movements
         int randommov = distribpm(genpm);
         //cout << "Posible movement:\t" << randommov << "\n" << "Posible_movements:" << "\t";
-        for (int i = 0; i < posible_movements.size(); i++){
-            for (int j = 0; j < posible_movements[i].size(); j++){
+       // for (int i = 0; i < posible_movements.size(); i++){
+        //    for (int j = 0; j < posible_movements[i].size(); j++){
                 //cout << posible_movements[i][j] << "\t";
-        }
+      //  }
             //cout << "\nvector posible_mov:\t";
-        }
-        for (int i = 0; i < posible_movements[randommov].size(); i++){
-            cout <<posible_movements[randommov][i] << "\t";
-        }
+      //  }
+        //for (int i = 0; i < posible_movements[randommov].size(); i++){
+         //   cout <<posible_movements[randommov][i] << "\t";
+        //}
         //cout << "\n";
         return posible_movements[randommov];
     }
