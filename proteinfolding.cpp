@@ -19,16 +19,16 @@ int main(int argc, char **argv)
     int n = 8;
     int T = 1; //Temperatura del medio
     const int steps = atoi(argv[2]);
-    vector<vector<int> > Protein = {{0,0,1},{1,0,2},{1,1,3},{0,1,4},{-1,1,5},{-1,0,6},{-1,-1,7},{0,-1,8}};
+    vector<vector<int> > Protein;
     double matrizj[8][8];
     double deltaE;
     
-    std::random_device rd;  
-    std::mt19937 genn(rd()); 
+    //std::random_device rd;  
+    std::mt19937 genn(int (1)); 
     std::uniform_int_distribution<> distribn(1, n);//Ran int number for amino type
 
-    std::random_device rd1;  
-    std::mt19937 genJ(rd1()); 
+    //std::random_device rd1;  
+    std::mt19937 genJ(int (2)); 
     std::uniform_real_distribution<> distribJ(-4,-2);//Ran real number for matrix J
 
     std::random_device rd2;
@@ -45,15 +45,15 @@ int main(int argc, char **argv)
             matrizj[i][j]=distribJ(genJ);
 	        matrizj[j][i]=matrizj[i][j];
         }
-	    // for (int l = 0; l < n; l++){
-	    //     std::cout << matrizj[i][l] << "\t";
-	    // }
-        // std::cout << "\n";
+	    for (int l = 0; l < n; l++){
+	        std::cout << matrizj[i][l] << "\t";
+	    }
+        std::cout << "\n";
     }
 
     for(int i = 0; i < N; i++){ //Amino vector construction
-        std::vector<int> amino ={i,0,i,distribn(genn)};
-        //Protein.push_back(amino); //Protein construction
+        std::vector<int> amino ={i,0,distribn(genn)};
+        Protein.push_back(amino); //Protein construction
 
     }
      for (int i = 0; i < Protein.size(); i++) { //Protein construction
@@ -78,14 +78,14 @@ int main(int argc, char **argv)
                 Protein = aux_vec;
             }
         }
-        cout << "\nProteína: \t";
-        for (int i=0; i < Protein.size();i++){
-            cout << "(";
-            for (int j=0; j < Protein[i].size();j++){
-                cout << Protein[i][j]<<",";
-            }
-            cout << "),\t";
-        }
+        // cout << "\nProteína: \t";
+    //    for (int i=0; i < Protein.size();i++){
+    //         cout << "(";
+    //         for (int j=0; j < Protein[i].size();j++){
+    //             cout << Protein[i][j]<<",";
+    //         }
+    //         cout << "),\t";
+    //     }
     }
     return 0;
 }
@@ -150,23 +150,23 @@ vector<int> posible_move(int a, std::vector<vector<int>> b) // implementation
             k = 0;
         }
     }
-    cout << "amino choosen:\t"<< a << "\n";
+    //cout << "amino choosen:\t"<< a << "\n";
     if (!posible_movements.empty()){
         std::random_device rd3;
         std::mt19937 genpm(rd3());
         std::uniform_int_distribution<> distribpm(0, posible_movements.size()-1);// Ran number for posible movements
         int randommov = distribpm(genpm);
-        cout << "Posible movement:\t" << randommov << "\n" << "Posible_movements:" << "\t";
-        for (int i = 0; i < posible_movements.size(); i++){
-        for (int j = 0; j < posible_movements[i].size(); j++){
-            cout << posible_movements[i][j] << "\t";
-        }
-        cout << "\nvector posible_mov:\t";
-        }
-        for (int i = 0; i < posible_movements[randommov].size(); i++){
-            cout <<posible_movements[randommov][i] << "\t";
-        }
-        cout << "\n";
+        // cout << "Posible movement:\t" << randommov << "\n" << "Posible_movements:" << "\t";
+        // for (int i = 0; i < posible_movements.size(); i++){
+        // for (int j = 0; j < posible_movements[i].size(); j++){
+        //     cout << posible_movements[i][j] << "\t";
+        // }
+        // cout << "\nvector posible_mov:\t";
+        //  }
+        // for (int i = 0; i < posible_movements[randommov].size(); i++){
+        //     cout <<posible_movements[randommov][i] << "\t";
+        // }
+        // cout << "\n";
         return posible_movements[randommov];
     }
     else{
