@@ -70,8 +70,10 @@ int main(int argc, char **argv)
    // }
     
     for (int ms = 0; ms <= steps; ms++){
+        double emin=0;
         int randomposition = distribN(genN);
         vector<vector<int>> aux_vec = Protein;
+        vector<vector<int>> aux_vecmin = Protein;
         aux_vec[randomposition] = posible_move(randomposition, Protein);
         deltaE = energy(aux_vec, matrizj) - energy(Protein, matrizj);
         if (deltaE <= 0){
@@ -99,18 +101,35 @@ int main(int argc, char **argv)
         cout << "\n";
         cout << "\n";
        }
-       cout << energy(Protein, matrizj)<< "\t"<< ms;
-       cout << "\n";
+       //cout << energy(Protein, matrizj)<< "\t"<< ms;
+       //cout << "\n";
 
-
-    }
+        if (energy(Protein, matrizj) <emin){
+            emin = energy(Protein, matrizj);
+            aux_vecmin=Protein;
+       }
+        if (ms == steps ){
+            for (int i=0; i < aux_vecmin.size();i++){// Pinta proteina y energia                    ||ms ==int(steps/2) ||ms ==steps             ||ms ==int(steps/2
+            //cout << "(";
+                for (int j=0; j < aux_vecmin[i].size()-1;j++){
+                cout << aux_vecmin[i][j]<<"\t";
+                //cout << Protein[i][j]<< "\t";//<< energy(Protein, matrizj)<< "\t"<< ms << "\t";
+                //cout << energy(Protein, matrizj)<< "\t";
+            }
+            //cout << "),\t";
+            cout << "\n";
+        }
+        cout << "\n";
+        cout << "\n";
+        }
+        }
 
     return 0;
 }
 
 vector<int> posible_move(int a, std::vector<vector<int>> b) // implementation
 {
-    
+
     std::vector<vector<int> > posible_movements{{b[a][0] + 1,b[a][1] + 1,b[a][2]},{b[a][0] + 1,b[a][1] -1,b[a][2]},{b[a][0] - 1,b[a][1] + 1,b[a][2]},{b[a][0] - 1,b[a][1] - 1,b[a][2]}};
     // cout << a << "\n";
     // cout << b[a][0] << "\t" <<b[a][1] << "\n";
