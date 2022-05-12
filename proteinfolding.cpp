@@ -23,15 +23,15 @@ int main(int argc, char **argv)
     double matrizj[8][8];
     double deltaE;
     
-    std::mt19937 genn(int (1)); 
+    std::mt19937 genn(int (1)); //seed is fixed
     std::uniform_int_distribution<> distribn(1, n);//Ran int number for amino type
 
-    std::mt19937 genJ(int (2)); 
+    std::mt19937 genJ(int (2)); //seed is fixed
     std::uniform_real_distribution<> distribJ(-4,-2);//Ran real number for matrix J
 
     std::random_device rd2;
     std::mt19937 genN(rd2());   //Set random seed for distribution
-    std::uniform_int_distribution<> distribN(0, N-1);// Ran int number for the chain
+    std::uniform_int_distribution<> distribN(1, N-1);// Ran int number for the chain
 
     std::random_device rd4;
     std::mt19937 genP(rd4());   //Set random seed for distribution
@@ -42,10 +42,10 @@ int main(int argc, char **argv)
             matrizj[i][j]=distribJ(genJ);
 	        matrizj[j][i]=matrizj[i][j];
         }
-	    for (int l = 0; l < n; l++){
-	        std::cout << matrizj[i][l] << "\t";
-	    }
-        std::cout << "\n";
+	    // for (int l = 0; l < n; l++){
+	    //     std::cout << matrizj[i][l] << "\t";
+	    // }
+        // std::cout << "\n";
     }
 
     for(int i = 0; i < N; i++){ //Amino vector construction
@@ -69,14 +69,14 @@ int main(int argc, char **argv)
                 Protein = aux_vec;
             }
         }
-        // cout << "\nProteína: \t";    //prints the protein after each montecarlo step
-    //    for (int i=0; i < Protein.size();i++){
-    //         cout << "(";
-    //         for (int j=0; j < Protein[i].size();j++){
-    //             cout << Protein[i][j]<<",";
-    //         }
-    //         cout << "),\t";
-    //     }
+        cout << "\nProteína: \t";    //prints the protein after each montecarlo step
+       for (int i=0; i < Protein.size();i++){
+            cout << "(";
+            for (int j=0; j < Protein[i].size();j++){
+                cout << Protein[i][j]<<",";
+            }
+            cout << "),\t";
+        }
     }
     return 0;
 }
@@ -84,7 +84,8 @@ int main(int argc, char **argv)
 vector<int> posible_move(int a, std::vector<vector<int>> b) // implementation
 {
     // Posible movemets is created based on the diagonal points around the random amino a
-    std::vector<vector<int> > posible_movements{{b[a][0] + 1,b[a][1] + 1,b[a][2]},{b[a][0] + 1,b[a][1] -1,b[a][2]},{b[a][0] - 1,b[a][1] + 1,b[a][2]},{b[a][0] - 1,b[a][1] - 1,b[a][2]}};
+    std::vector<vector<int> > posible_movements{{b[a][0] + 1,b[a][1] + 1,b[a][2]},{b[a][0] + 1,b[a][1] -1,b[a][2]}
+    ,{b[a][0] - 1,b[a][1] + 1,b[a][2]},{b[a][0] - 1,b[a][1] - 1,b[a][2]}};
     for (int j = 0; j < b.size(); j++){ //check if there's an amino occupying some posible movement
         if(b[j][0] == b[a][0] + 1 and b[j][1] == b[a][1] + 1){  //marks the occupied position
             posible_movements[0][0]=-1000;
@@ -115,13 +116,6 @@ vector<int> posible_move(int a, std::vector<vector<int>> b) // implementation
         else if (a == b.size()-1){  //The function on the extremes must be redefined
             float d2 = sqrt(std::pow(posible_movements[i][0]-b[a-1][0],2)+std::pow(posible_movements[i][1]-b[a-1][1],2));
             if (d2 != 1){
-                posible_movements[i][0]=-1000;
-                posible_movements[i][1]=-1000;
-            }
-        }
-        else if(a == 0){
-            float d1 = sqrt(std::pow(posible_movements[i][0]-b[a+1][0],2)+std::pow(posible_movements[i][1]-b[a+1][1],2));
-            if (d1 != 1){
                 posible_movements[i][0]=-1000;
                 posible_movements[i][1]=-1000;
             }
@@ -174,7 +168,7 @@ double energy(std::vector<vector<int>> P,double Matriz[8][8]){// implementation
             }
         }
 	for (int y = 0; y < closest_amino.size(); y++){
-        E = E + (Matriz[i][closest_amino[y][2]-1])/2;   //Energy is calculated 
+        E = E + (Matriz[P[i][2]][closest_amino[y][2]-1])/2;   //Energy is calculated 
 	}
 	
     }
