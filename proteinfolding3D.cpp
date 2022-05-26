@@ -54,11 +54,9 @@ int main(int argc, char **argv)
     }
     int randomposition = distribN(genN);
     posible_move(int (7),Protein);
-    cout << "--------------------------------------\n";
     energy(Protein,matrizj);
 
     for (int ms = 0; ms <= steps; ms++){
-        cout << ms <<"\n";
         int randomposition = distribN(genN);    //Choose random position from random distrib
         vector<vector<int>> aux_vec = Protein;  //Defines an auxiliar vector for determining
         aux_vec[randomposition] = posible_move(randomposition, Protein);    //Take the hypothetical protein when makes a movement
@@ -73,14 +71,22 @@ int main(int argc, char **argv)
                 Protein = aux_vec;
             }
         }
-        cout << "\nProteína: \t";    //prints the protein after each montecarlo step
+        cout << "X\t" << "Y\t" << "Z\n";    //prints the protein after each montecarlo step
+
         for (int i=0; i < Protein.size();i++){
-            cout << "(";
-            for (int j=0; j < Protein[i].size();j++){
-                cout << Protein[i][j]<<",";
+            for (int j=0; j < Protein[i].size()-1;j++){
+                cout << Protein[i][j] << "\t";
             }
-            cout << "),\t";
+            cout << "\n";
         }
+        // cout << "\nProteína: \t";    //prints the protein after each montecarlo step
+        // for (int i=0; i < Protein.size();i++){
+        //     cout << "(";
+        //     for (int j=0; j < Protein[i].size();j++){
+        //         cout << Protein[i][j]<<",";
+        //     }
+        //     cout << "),\t";
+        // }
     }
     return 0;
 }
