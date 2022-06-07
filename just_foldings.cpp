@@ -53,13 +53,18 @@ int main(int argc, char **argv)
     for(int i = 0; i < N; i++){ //Amino vector construction
         std::vector<int> amino ={i,0,distribn(genn)};
         Protein.push_back(amino); //Protein construction
-
     }
+    bool t;
+
     for (int ms = 0; ms <= steps; ms++){
         int randomposition = distribN(genN);    //Choose random position from random distrib
         vector<vector<int>> aux_vec = Protein;  //Defines an auxiliar vector for determining
         aux_vec[randomposition] = posible_move(randomposition, Protein);    //Take the hypothetical protein when makes a movement
         deltaE = energy(aux_vec, matrizj) - energy(Protein, matrizj);   //Defines the delta of energy between a random movement
+        if (aux_vec[randomposition] == Protein[randomposition]){
+            t = false;
+        }
+        else{t=true;}
         if (deltaE <= 0){   //deltaE<=0 means the movement will be done
             Protein = aux_vec;
         }
@@ -70,12 +75,14 @@ int main(int argc, char **argv)
                 Protein = aux_vec;
             }
         }
-        cout << "X\t" << "Y\n";    //prints the protein after each montecarlo step
-        for (int i=0; i < Protein.size();i++){
-            for (int j=0; j < Protein[i].size()-1;j++){
-                cout << Protein[i][j] << "\t";
+        if (t==true){
+            cout << "X\t" << "Y\n";    //prints the protein after each montecarlo step
+            for (int i=0; i < Protein.size();i++){
+                for (int j=0; j < Protein[i].size()-1;j++){
+                    cout << Protein[i][j] << "\t";
+                }
+                cout << "\n";
             }
-            cout << "\n";
         }
         // cout << "Proteína:\t";
         // for (int i=0; i < Protein.size();i++){

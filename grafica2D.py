@@ -2,11 +2,14 @@ import pandas as pd
 from matplotlib import pyplot as plt
 import imageio.v2 as imageio
 import os
+import cv2
+
+
 maxdata = max([int(file.replace('Iteracion','')) for file in os.listdir('Datos') if '.png' not in file])+1
 
 giffile = 'ola.gif'
 
-Image_Data = []
+img_array = []
 minx = 5000
 maxx =-5000
 miny = 5000
@@ -24,7 +27,9 @@ for i in range(1,maxdata):
         minx=min(data.X)
     Resultados[f'data{i}'] = data
     print(i)
+
 for file in Resultados.keys():
+    i = int(file.replace('data',''))
     print(file)
     data = Resultados[file]
     fig,ax = plt.subplots(1)
@@ -35,6 +40,13 @@ for file in Resultados.keys():
     ax.axis('off')
     fig.savefig(f'Datos/Iteracion{i}.png',bbox_inches='tight')
     plt.close(fig)
-    idata = imageio.imread('Datos/Iteracion'+str(i)+'.png')
-    Image_Data.append(idata)
-imageio.mimwrite(giffile, Image_Data, format= '.gif', fps = 250)
+    img = cv2.imread(f'Datos/Iteracion{i}.png')
+    height, width, layers = img.shape
+    size = (width,height)
+    img_array.append(img)
+
+out = cv2.VideoWriter('Proteina2D.mp4',cv2.VideoWriter_fourcc(*'mp4v'), 30, size)
+
+for j in range(len(img_array)):
+    out.write(img_array[j])
+out.release()

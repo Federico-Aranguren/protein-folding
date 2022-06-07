@@ -52,9 +52,6 @@ int main(int argc, char **argv)
         std::vector<int> amino = {i,0,0,distribn(genn)}; //Initial conditions we set
         Protein.push_back(amino); //Protein construction
     }
-    int randomposition = distribN(genN);
-    posible_move(int (7),Protein);
-    energy(Protein,matrizj);
     bool t;
 
     for (int ms = 0; ms <= steps; ms++){
