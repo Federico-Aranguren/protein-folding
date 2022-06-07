@@ -53,11 +53,13 @@ int main(int argc, char **argv)
         Protein.push_back(amino); //Protein construction
     }
 
+
     for (int ms = 0; ms <= steps; ms++){
+        double E = energy(Protein, matrizj);
         int randomposition = distribN(genN);    //Choose random position from random distrib
         vector<vector<int>> aux_vec = Protein;  //Defines an auxiliar vector for determining
         aux_vec[randomposition] = posible_move(randomposition, Protein);    //Take the hypothetical protein when makes a movement
-        deltaE = energy(aux_vec, matrizj) - energy(Protein, matrizj);   //Defines the delta of energy between a random movement 
+        deltaE = energy(aux_vec, matrizj) - E;   //Defines the delta of energy between a random movement 
         if (deltaE <= 0){   //deltaE<=0 means the movement will be done
             Protein = aux_vec;
         }
@@ -84,6 +86,13 @@ int main(int argc, char **argv)
         //     }
         //     cout << "),\t";
         // }
+    }
+    cout << "X\t" << "Y\t" << "Z\n";
+    for (int i=0; i < Eminprotein.size();i++){
+        for (int j=0; j < Eminprotein[i].size()-1;j++){
+            cout << Eminprotein[i][j] << "\t";
+        }
+        cout << "\n";
     }
     return 0;
 }
