@@ -55,12 +55,13 @@ int main(int argc, char **argv)
         InitialProtein.push_back(amino); //Protein construction
     }
     double E; 
-    vector<vector<int>> Eminprotein;
+    double L;
+    vector<vector<int>> Lminprotein;
 
     for (int s = 0; s < simul; s++){
         Protein = InitialProtein;
-        cout << "Ms\t" << "E\n";
-        double Emin = 5000;
+        cout << "Ms\t" << "L\n";
+        double Lmin = 5000;
         for (int ms = 0; ms <= steps; ms++){
             E =  energy(Protein, matrizj);
             int randomposition = distribN(genN);    //Choose random position from random distrib
@@ -77,18 +78,19 @@ int main(int argc, char **argv)
                     Protein = aux_vec;
                 }
             }
-            if (E <= Emin){
-                Emin = E;
-                Eminprotein = Protein;
+            L = sqrt(pow(Protein[0][0]-Protein[N-1][0],2)+pow(Protein[0][1]-Protein[N-1][1],2)+pow(Protein[0][2]-Protein[N-1][2],2));
+            if (L <= Lmin){
+                Lmin = L;
+                Lminprotein = Protein;
             }
-            cout << ms << "\t" << E << "\n";
+            cout << ms << "\t" << L << "\n";
 
         }
         cout << "X\t" << "Y\t" << "Z\n";    //prints the protein after each montecarlo step
 
-        for (int i=0; i < Eminprotein.size();i++){
-            for (int j=0; j < Eminprotein[i].size()-1;j++){
-                cout << Eminprotein[i][j] << "\t";
+        for (int i=0; i < Lminprotein.size();i++){
+            for (int j=0; j < Lminprotein[i].size()-1;j++){
+                cout << Lminprotein[i][j] << "\t";
             }
             cout << "\n";
         }

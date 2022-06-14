@@ -7,8 +7,6 @@ import cv2
 
 maxdata = max([int(file.replace('Iteracion','')) for file in os.listdir('Datos') if '.png' not in file])+1
 
-giffile = 'ola.gif'
-
 img_array = []
 minx = 5000
 maxx =-5000
@@ -54,8 +52,9 @@ for file in Resultados.keys():
     size = (width,height)
     img_array.append(img)
 
-out = cv2.VideoWriter('Proteina3D.mp4',cv2.VideoWriter_fourcc(*'mp4v'), 5, size)
+out = cv2.VideoWriter('Proteina3D.mp4',cv2.VideoWriter_fourcc(*'mp4v'), 40, size)
 
 for j in range(len(img_array)):
     out.write(img_array[j])
 out.release()
+
