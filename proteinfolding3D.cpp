@@ -66,7 +66,7 @@ int main(int argc, char **argv)
         else{   //deltaE>0 means the movement has a probability of be done determinated by the boltz factor
             double Boltz_factor = exp(-deltaE/T); //Boltz factor is defined it goes from 0 (when deltaE tends to inf)to 1 (when deltaE=0)
             float prob = distribP(genP); //Probability is calculated based on a normal distrib from 0 to 1
-            if (prob >= Boltz_factor){// if prob >= Boltz factor the movement will be done
+            if (prob <= Boltz_factor){// if prob >= Boltz factor the movement will be done
                 Protein = aux_vec;
             }
         }
@@ -214,7 +214,7 @@ double energy(std::vector<vector<int>> P,double Matriz[n][n]){// implementation
             aux_ca.clear();        
         }
 	    for (int y = 0; y < closest_amino.size(); y++){
-            E = E + (Matriz[P[i][3]][closest_amino[y][3]-1])/2;   //Energy is calculated 
+            E = E + (Matriz[P[i][3]-1][closest_amino[y][3]-1])/2;   //Energy is calculated 
 	    }
         closest_amino.clear();
     }

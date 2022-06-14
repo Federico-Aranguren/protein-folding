@@ -6,7 +6,7 @@
 #include <math.h>
 using namespace std;
 
-const int n = 8;  //amino types
+const int n = 20;  //amino types
 double matrizj[n][n];
 
 //Declaration of functions
@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     std::cout.precision(6);
     // declare variables
     int N = atoi(argv[1]); //lenght of the protein
-    int T = 1; //Temperatura del medio
+    int T = 10; //Temperatura del medio
     const int steps = atoi(argv[2]); // Number of steps of Montecarlo
     vector<vector<int> > Protein;
     double deltaE;
@@ -55,7 +55,13 @@ int main(int argc, char **argv)
         Protein.push_back(amino); //Protein construction
     }
     bool t;
-
+    cout << "X\t" << "Y\n";    //prints the protein after each montecarlo step
+    for (int i=0; i < Protein.size();i++){
+        for (int j=0; j < Protein[i].size()-1;j++){
+            cout << Protein[i][j] << "\t";
+        }
+        cout << "\n";
+    }
     for (int ms = 0; ms <= steps; ms++){
         int randomposition = distribN(genN);    //Choose random position from random distrib
         vector<vector<int>> aux_vec = Protein;  //Defines an auxiliar vector for determining
@@ -169,66 +175,6 @@ vector<int> posible_move(int a, std::vector<vector<int>> b) // implementation
             }    
         }    
     }
-    // // Posible movemets is created based on the diagonal points around the random amino a
-    // std::vector<vector<int> > posible_movements{{b[a][0] + 1,b[a][1] + 1,b[a][2]},{b[a][0] + 1,b[a][1] -1,b[a][2]}
-    // ,{b[a][0] - 1,b[a][1] + 1,b[a][2]},{b[a][0] - 1,b[a][1] - 1,b[a][2]}};
-    // for (int j = 0; j < b.size(); j++){ //check if there's an amino occupying some posible movement
-    //     if(b[j][0] == b[a][0] + 1 and b[j][1] == b[a][1] + 1){  //marks the occupied position
-    //         posible_movements[0][0]=-1000;
-    //         posible_movements[0][1]=-1000;
-    //     }
-    //     else if (b[j][0] == b[a][0]+1 and b[j][1] == b[a][1] - 1){  //marks the occupied position
-    //         posible_movements[1][0]=-1000;
-    //         posible_movements[1][1]=-1000;
-    //     }
-    //     else if (b[j][0] == b[a][0] - 1 and b[j][1] == b[a][1] + 1){    //marks the occupied position
-    //         posible_movements[2][0]=-1000;
-    //         posible_movements[2][1]=-1000;
-    //     }
-    //     else if (b[j][0] == b[a][0]-1 and b[j][1] == b[a][1] - 1){  //marks the occupied position
-    //         posible_movements[3][0]=-1000;
-    //         posible_movements[3][1]=-1000;
-    //     }
-    // }
-    // for (int i = 0; i < posible_movements.size(); i++){ //checks if a posible movement that alters the protein lenght
-    //     if (a != 0 && a != b.size()-1){
-    //         float d1 = sqrt(std::pow(posible_movements[i][0]-b[a+1][0],2)+std::pow(posible_movements[i][1]-b[a+1][1],2));
-    //         float d2 = sqrt(std::pow(posible_movements[i][0]-b[a-1][0],2)+std::pow(posible_movements[i][1]-b[a-1][1],2));
-    //         if (d1 != 1 || d2 != 1){
-    //             posible_movements[i][0]=-1000;
-    //             posible_movements[i][1]=-1000;
-    //         }
-    //     }
-    //     else if (a == b.size()-1){  //The function on the extremes must be redefined
-    //         float d2 = sqrt(std::pow(posible_movements[i][0]-b[a-1][0],2)+std::pow(posible_movements[i][1]-b[a-1][1],2));
-    //         if (d2 != 1){
-    //             posible_movements[i][0]=-1000;
-    //             posible_movements[i][1]=-1000;
-    //         }
-    //     }
-    //     else if(a == 0){
-    //         float d1 = sqrt(std::pow(posible_movements[i][0]-b[a+1][0],2)+std::pow(posible_movements[i][1]-b[a+1][1],2));
-    //         if (d1 != 1){
-    //             posible_movements[i][0]=-1000;
-    //             posible_movements[i][1]=-1000;
-    //         }
-    //     }
-    // }
-    // for (int k = 0; k < posible_movements.size();k++){  //Removes the marked movements
-    //     while (posible_movements[k][0]==-1000 && posible_movements[k][1]==-1000){
-	//         posible_movements.erase(posible_movements.begin()+k);
-    //         k = 0;
-    //     }
-    // }
-    // cout << "------------------------------------\n";
-    // cout << a << "\n";
-    // cout << b[a][0] << b[a][1] << b[a][2] << "\n";
-    // for (int i = 0; i < posible_movements.size(); i++){
-    //     for (int j = 0; j < posible_movements[i].size();j++){
-    //         cout << posible_movements[i][j] << "\t";
-    //     }
-    //     cout << "\n";
-    //}
     if (!posible_movements.empty()){    //If there's a posible movement we select a random one
         std::random_device rd3;
         std::mt19937 genpm(rd3());
@@ -262,43 +208,9 @@ double energy(std::vector<vector<int>> P,double Matriz[n][n]){// implementation
             aux_ca.clear();        
         }
 	    for (int y = 0; y < closest_amino.size(); y++){
-            E = E + (Matriz[P[i][2]][closest_amino[y][2]-1])/2;   //Energy is calculated 
+            E = E + (Matriz[P[i][2]-1][closest_amino[y][2]-1])/2;   //Energy is calculated 
 	    }
         closest_amino.clear();
     }
     return E;   
-    //The function returns the value of the energy
-    // for (int i = 0; i < P.size(); i++){//se situa en un aminoácido
-    //     std::vector<vector<int> > closest_amino{{P[i][0] + 1,P[i][1],0},{P[i][0],P[i][1] + 1,0},{P[i][0] - 1,P[i][1], 0},{P[i][0],P[i][1]-1, 0}};
-    //     for (int j = 0; j < closest_amino.size(); j++){//se situa en las posiciones cercanas del i.esimo aminoácido
-    //         for (int l = 0; l < P.size(); l++){//Revisa si algun amino está en la posicion j-esima de closest_position
-    //             if (P[l][0] == closest_amino[j][0] && P[l][1] == closest_amino[j][1]){
-    //                 if (l == i+1 || l == i-1){  //If the amino that is close is connected to the amino selected we discard it
-    //                     closest_amino[j][0]=-1000;
-    //                     closest_amino[j][1]=-1000;
-    //                 }
-
-    //                 else{
-    //                     closest_amino[j][2]=P[l][2]; //The amino type of the aminoacid is saved
-    //                     break;
-    //                 }
-    //             }
-    //         }
-    //         if (closest_amino[j][2]==0){    //If there's no closest amino we discard it
-    //             closest_amino[j][0]=-1000;
-    //             closest_amino[j][1]=-1000;
-    //         }
-    //     }
-    //     for (int k = 0;k < closest_amino.size();k++){   //Aminos marked to be erased are erased
-    //         while (closest_amino[k][0]==-1000 && closest_amino[k][1]==-1000){
-    //             closest_amino.erase(closest_amino.begin()+k);
-    //             k = 0;
-    //         }
-    //     }
-	// for (int y = 0; y < closest_amino.size(); y++){
-    //     E = E + (Matriz[P[i][2]][closest_amino[y][2]-1])/2;   //Energy is calculated
-	// }
-
-    // }
-    // return E;   //The function returns the value of the energy
 }

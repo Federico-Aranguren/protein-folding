@@ -213,7 +213,7 @@ double energy(std::vector<vector<int>> P,double Matriz[n][n]){// implementation
             aux_ca.clear();        
         }
 	    for (int y = 0; y < closest_amino.size(); y++){
-            E = E + (Matriz[P[i][3]][closest_amino[y][3]-1])/2;   //Energy is calculated 
+            E = E + (Matriz[P[i][3]-1][closest_amino[y][3]-1])/2;   //Energy is calculated 
 	    }
         closest_amino.clear();
     }

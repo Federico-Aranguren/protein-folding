@@ -6,7 +6,7 @@
 #include <math.h>
 using namespace std;
 
-const int n = 8;  //amino types
+const int n = 20;  //amino types
 double matrizj[n][n];
 
 //Declaration of functions
@@ -20,7 +20,7 @@ int main(int argc, char **argv)
     std::cout.precision(6);
     // declare variables
     int N = atoi(argv[1]); //lenght of the protein
-    int T = 1; //Temperatura del medio
+    const float T = atoi(argv[3]); //Temperatura del medio
     const int steps = atoi(argv[2]); // Number of steps of Montecarlo
     vector<vector<int> > Protein;
     double deltaE;
@@ -195,7 +195,7 @@ double energy(std::vector<vector<int>> P,double Matriz[n][n]){// implementation
             aux_ca.clear();        
         }
 	    for (int y = 0; y < closest_amino.size(); y++){
-            E = E + (Matriz[P[i][2]][closest_amino[y][2]-1])/2;   //Energy is calculated 
+            E = E + (Matriz[P[i][2]-1][closest_amino[y][2]-1])/2;   //Energy is calculated 
 	    }
         closest_amino.clear();
     }
